@@ -1,0 +1,12 @@
+applications:
+- path: .
+  memory: 256M
+  instances: 1
+  domain: mybluemix.net
+  name: OrangeRiver
+  host: OrangeRiver
+  disk_quota: 1024M
+  services:
+  - Apache Spark-yk
+  - Weather Company Data-bm
+  - Apache Spark-yk_objectstore
