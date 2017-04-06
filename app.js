@@ -3,7 +3,6 @@
 //------------------------------------------------------------------------------
 // node.js starter application for Bluemix
 //------------------------------------------------------------------------------
-
 // This application uses express as its web server
 // for more info, see: http://expressjs.com
 var express = require('express');
@@ -23,33 +22,40 @@ app.use(express.static(__dirname + '/public'));
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
 
-//IoT Imports
+
+
+//mysql import
 var mysql = require("mysql");
    
 //SQL DB connection stuff
 var sqlcon = mysql.createConnection({
 	host: "127.0.0.1",
-	user: "root",//sim_app
-	password: "password",
+	user: "cpuproj",//sim_app
+	password: "cpupassword",
 	database: "cpuproj"
 });
 
-app.get('/process_start', function (req, res) {
-   // respond that server has started
-   response = "server started, See console log for more details";
-   res.send(response);
-	
-	//connect to db
-	sqlcon.connect(function(err){
+
+sqlcon.connect(function(err){
 		if(err){
 			console.log('Error connecting to Db');
 			return;
 		}
 		console.log('Connection established');
-	});
-	
-	
 });
+
+//setup mqtt and connect to topic
+var mqtt = require('mqtt');
+var client = mqtt.connect('mqtt://127.0.0.1');
+
+client.on('connect', function(){
+	client.subscribe('groupproject');
+	client.publish('gropproject/connect', 'true');
+})
+
+client.on('message', function(topic, message) {
+	console.log(message.toString());
+})
 
 
 // start server on the specified port and binding host

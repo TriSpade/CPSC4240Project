@@ -11,7 +11,8 @@
     "request": "2.79.0",
     "lodash": "4.17.4",
     "mysql": "2.13.0",
-    "ibmiotf": "0.2.32"
+    "ibmiotf": "0.2.32",
+    "mqtt": "2.5.2"
 	},
 	"repository": {},
 	"engines": {
