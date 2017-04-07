@@ -1,6 +1,6 @@
 
 var mqtt = require('mqtt');
-var client = mqtt.connect('tcp://cybertiger.clemson.edu');
+var client = mqtt.connect('mqtt://127.0.0.1');
 var fs = require('fs');
 
 var T = 5000;
@@ -36,7 +36,7 @@ var os = require("os"),
     cpuLoadString = date + cpuLoadString;
     console.log("\n");
     console.log("cpu usage:", cpuLoadString);
-    client.publish('/eo/teaching/2016fall/team1/cpuLoad', cpuLoadString);
+    client.publish('groupproject', cpuLoadString);
 
     var sys = require('util')
     var exec = require('child_process').exec;
@@ -51,7 +51,7 @@ var os = require("os"),
                                          var date = new Date().getTime();
                                          var temp = parseFloat(stdout)/1000;
 													 
-													 client.publish('/eo/teaching/2016fall/team1/cpuTemperature', 
+													 client.publish('groupproject', 
 													 	temp + " " + date
 													 );
                                         console.log("time:%s, CPU temperature: %s", date, temp);
