@@ -22,26 +22,29 @@ app.use(express.static(__dirname + '/public'));
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
 
-
-
 //mysql import
 var mysql = require("mysql");
+
+//get d3
+var d3 = require("d3");
+var jsonexport = require("jsonexport");
+var fs = require("fs");
    
 //SQL DB connection stuff
-var sqlcon = mysql.createConnection({
+var sqlcon = mysql.createPool({
+	connectionLimit : 10,
 	host: "127.0.0.1",
 	user: "cpuproj",//sim_app
 	password: "cpupassword",
 	database: "cpuproj"
 });
 
-
-sqlcon.connect(function(err){
-		if(err){
-			console.log('Error connecting to Db');
-			return;
-		}
-		console.log('Connection established');
+sqlcon.getConnection(function(err){
+	if(err){
+		console.log('Error connecting to Db');
+		return;
+	}
+	console.log('Connection established');
 });
 
 //setup mqtt and connect to topic
@@ -53,9 +56,58 @@ client.on('connect', function(){
 	client.publish('gropproject/connect', 'true');
 })
 
-client.on('message', function(topic, message) {
-	console.log(message.toString());
+
+	client.on('message', function(topic, message) {
+		console.log(message.toString());
+
+		var host = "test";
+		var location = "test";
+		var time = 1;
+		var loadavg = 1;
+		var temperature = 1; 
+
+		var post = new Object();
+		post.host = host;
+		post.location = location;
+		post.time = time;
+		post.loadavg = loadavg;
+		post.temperature = temperature;
+
+		sqlcon.query('INSERT INTO observations SET ?', post, function(err,result){
+			if(err) throw err;
+			console.log(result);
+		})
+	})
+
+function exportData(result){
+	jsonexport(result,function(err,csv){
+		if(err) return console.log(err);
+		fs.writeFile("data/log.csv", csv, function(err){
+			if(err){
+				return console.log(err);
+			}
+			return console.log("csv file made");
+		})
+	});
+}	
+
+
+
+
+app.get('/process_get', function (req, res) {
+   // Prepare output in JSON format
+   response = {
+      host:req.query.host
+     };
+               
+    sqlcon.query('SELECT * FROM `observations` WHERE `host` = \''+response.host+'\'', function(err,result){
+			if(err) throw err;
+			//console.log(result);
+			exportData(result);
+			res.location("localhost:6001/graph.html");
+	})
 })
+
 
 
 // start server on the specified port and binding host

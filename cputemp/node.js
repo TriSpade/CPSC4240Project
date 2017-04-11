@@ -36,7 +36,7 @@ var os = require("os"),
     cpuLoadString = date + cpuLoadString;
     console.log("\n");
     console.log("cpu usage:", cpuLoadString);
-    client.publish('groupproject', cpuLoadString);
+    //client.publish('groupproject', cpuLoadString);
 
     var sys = require('util')
     var exec = require('child_process').exec;
@@ -52,7 +52,7 @@ var os = require("os"),
                                          var temp = parseFloat(stdout)/1000;
 													 
 													 client.publish('groupproject', 
-													 	temp + " " + date
+													 	cpuLoadString + " " + temp + " " + date
 													 );
                                         console.log("time:%s, CPU temperature: %s", date, temp);
                                  }

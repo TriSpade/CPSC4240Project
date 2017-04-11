@@ -12,7 +12,9 @@
     "lodash": "4.17.4",
     "mysql": "2.13.0",
     "ibmiotf": "0.2.32",
-    "mqtt": "2.5.2"
+    "mqtt": "2.5.2",
+    "d3": "4.7.4",
+    "jsonexport": "1.5.2"
 	},
 	"repository": {},
 	"engines": {
