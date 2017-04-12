@@ -58,21 +58,25 @@ client.on('connect', function(){
 
 
 	client.on('message', function(topic, message) {
-		console.log(message.toString());
-
-		var host = "test";
-		var location = "test";
-		var time = 1;
-		var loadavg = 1;
-		var temperature = 1; 
+		var input = message.toString();
+		var toJSON = JSON.parse(input);
+		
+		//console.log(toJSON);
 
 		var post = new Object();
-		post.host = host;
-		post.location = location;
-		post.time = time;
-		post.loadavg = loadavg;
-		post.temperature = temperature;
+		post.hostname = toJSON.hostname;
+		post.cpu0 = toJSON.cpu0;
+		post.cpu1 = toJSON.cpu1;
+		post.cpu2 = toJSON.cpu2;
+		post.cpu3 = toJSON.cpu3;
+		post.cpu4 = toJSON.cpu4;
+		post.cpu5 = toJSON.cpu5;
+		post.cpu6 = toJSON.cpu6;
+		post.cpu7 = toJSON.cpu7;
+		post.time = toJSON.time;
 
+		console.log(post);
+		
 		sqlcon.query('INSERT INTO observations SET ?', post, function(err,result){
 			if(err) throw err;
 			console.log(result);

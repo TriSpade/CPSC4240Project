@@ -25,18 +25,20 @@ function cpuTimer(){
                                     
                 if(type == "idle"){
                     if(i == 0){
-                        cpuLoadString = "cpu" + i + ": " + cpuMath;
+                        cpuLoadString = "\"" + "cpu" + i + "\"" + " : " + "\"" + cpuMath + "\""  + " , ";
                     }
                     else{
-                        cpuLoadString = cpuLoadString + " " + "cpu" + i + ": " + cpuMath;
+                        cpuLoadString = cpuLoadString + "\"" + "cpu" + i + "\"" + " : " + "\"" + cpuMath + "\"" + " , ";
 					}                       
 				}                         
                 console.log("\t", type, Math.round((100 * cpu.times[type] / total)*100)/100);
             }
     }
     var date = new Date().getTime();
-    console.log("hostname: " + hostname + " " + cpuLoadString + " " + "time: " + date);
-	client.publish('groupproject', "hostname: " + hostname + " " + cpuLoadString + " " + "time: " + date);
+    var out = "{" + "\"" + "hostname" + "\"" + " : " + "\"" + hostname + "\"" + " , " + cpuLoadString + "\"" + "time" + "\"" + " : " + "\"" + date + "\"" + "}"
+    
+    console.log(out);
+	client.publish('groupproject', out);
 	/*
 	
     cpuLoadString = date + cpuLoadString;
