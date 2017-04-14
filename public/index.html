@@ -4,16 +4,16 @@
 	<head lang="en">
 	<meta charset="UTF-8">
 	<script language="JavaScript">
-		function redirect() {
-			window.location.replace("graph.html");
+		function submitFunction() {
+			document.getElementById("hostForm").submit();
 		}
 	</script>
 	<body>
-			<form action="127.0.0.1:6001/get.php">
+			<form id="hostForm" action="127.0.0.1:6001/get.php">
 			Host: <input type="text" name="host"><br>
-			<input type="submit" value="PHP request"><br>
+			<input type="submit" onclick="submitFunction()" value="PHP request"><br>
 		</form>
-		<iframe width="800" height="380" src="graph2.html" name="targetframe" allowTransparency="true" scrolling="no" frameborder="0" ></iframe>
+		<iframe width="800" height="380" src="127.0.0.1:6001/graph2.html" name="targetframe" allowTransparency="true" scrolling="no" frameborder="0" ></iframe>
 		<p>Steven Nix, Ronnie Funderburk, Alexander Sferrella</p>
 	</body>
 </html>
