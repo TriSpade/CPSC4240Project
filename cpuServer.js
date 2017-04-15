@@ -9,15 +9,25 @@ var express = require('express');
   request = require('request'),
 
 _ = require('lodash');
+
 // cfenv provides access to your Cloud Foundry environment
 // for more info, see: https://www.npmjs.com/package/cfenv
 var cfenv = require('cfenv');
 
 // create a new express server
 var app = express();
+var phpExpress = require('php-express')({
+	binPath: 'php'
+});
 
 // serve the files out of ./public as our main files
 app.use(express.static(__dirname + '/public'));
+
+app.set('views', './views');
+app.engine('php', phpExpress.engine);
+app.set('view engine', 'php');
+
+app.all(/.+\.php$/, phpExpress.router);
 
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
@@ -94,25 +104,6 @@ function exportData(result){
 		})
 	});
 }	
-
-
-
-
-app.get('/process_get', function (req, res) {
-   // Prepare output in JSON format
-   response = {
-      host:req.query.host
-     };
-               
-    sqlcon.query('SELECT * FROM `observations` WHERE `host` = \''+response.host+'\'', function(err,result){
-			if(err) throw err;
-			//console.log(result);
-			exportData(result);
-			res.location("localhost:6001/graph.html");
-	})
-})
-
-
 
 // start server on the specified port and binding host
 app.listen(appEnv.port, '0.0.0.0', function() {
