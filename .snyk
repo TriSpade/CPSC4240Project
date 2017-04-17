@@ -1,0 +1,16 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.7.1
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  'npm:ws:20160624':
+    - ibmiotf > mqtt > websocket-stream > ws:
+        reason: None given
+        expires: '2017-05-17T04:25:38.222Z'
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:ws:20160104':
+    - ibmiotf > mqtt > websocket-stream > ws:
+        patched: '2017-04-17T04:24:25.360Z'
+  'npm:ws:20160920':
+    - ibmiotf > mqtt > websocket-stream > ws:
+        patched: '2017-04-17T04:24:25.360Z'

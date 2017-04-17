@@ -14,20 +14,12 @@ _ = require('lodash');
 // for more info, see: https://www.npmjs.com/package/cfenv
 var cfenv = require('cfenv');
 
+//helmet is a set of security features for express server
+var helmet = require('helmet');
+
 // create a new express server
 var app = express();
-var phpExpress = require('php-express')({
-	binPath: 'php'
-});
-
-// serve the files out of ./public as our main files
-app.use(express.static(__dirname + '/public'));
-
-app.set('views', './views');
-app.engine('php', phpExpress.engine);
-app.set('view engine', 'php');
-
-app.all(/.+\.php$/, phpExpress.router);
+app.use(helmet());
 
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
@@ -90,6 +82,12 @@ client.on('connect', function(){
 		sqlcon.query('INSERT INTO observations SET ?', post, function(err,result){
 			if(err) throw err;
 			console.log(result);
+		})
+
+		sqlcon.query('SELECT * FROM `observations`', function(err,result){
+			if(err) throw err;
+			exportData(result);
+			console.log("data exported");
 		})
 	})
 

@@ -3,22 +3,25 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "snyk test",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "cfenv": "1.0.x",
-    "d3": "4.7.4",
-    "express": "4.13.x",
-    "ibmiotf": "0.2.32",
+    "express": "^4.15.2",
+    "helmet": "3.5.0",
     "jsonexport": "1.5.2",
     "lodash": "4.17.4",
     "mqtt": "2.5.2",
     "mysql": "^2.13.0",
     "request": "2.79.0",
-    "php-express": "0.0.3"
+    "snyk": "^1.28.1"
   },
   "repository": {},
   "engines": {
     "node": "4.x"
-  }
+  },
+  "snyk": true
 }
