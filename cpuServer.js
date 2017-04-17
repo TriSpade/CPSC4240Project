@@ -27,8 +27,7 @@ var appEnv = cfenv.getAppEnv();
 //mysql import
 var mysql = require("mysql");
 
-//get d3
-var d3 = require("d3");
+
 var jsonexport = require("jsonexport");
 var fs = require("fs");
    
@@ -94,7 +93,7 @@ client.on('connect', function(){
 function exportData(result){
 	jsonexport(result,function(err,csv){
 		if(err) return console.log(err);
-		fs.writeFile("data/log.csv", csv, function(err){
+		fs.writeFile("public/data/log.csv", csv, function(err){
 			if(err){
 				return console.log(err);
 			}

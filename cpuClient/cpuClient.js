@@ -2,6 +2,7 @@
 var mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://127.0.0.1');
 var fs = require('fs');
+var moment = require('moment');
 
 var T = 5000;
 var cpuMath = 0;
@@ -34,10 +35,13 @@ function cpuTimer(){
             }
     }
     var date = new Date().getTime();
+    date = moment(date).format("DD-MM-YYYY HH:mm:ss");
+
     var out = "{" + "\"" + "hostname" + "\"" + " : " + "\"" + hostname + "\"" + " , " + cpuLoadString + "\"" + "time" + "\"" + " : " + "\"" + date + "\"" + "}"
     
     console.log(out);
     client.publish('groupproject', out);
 }
+
 
 time = setInterval(cpuTimer, T);
