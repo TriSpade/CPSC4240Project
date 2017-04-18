@@ -9,7 +9,7 @@ var svg = d3.select("svg"),
     height = +svg.attr("height") - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var parseTime = d3.timeParse("%d-%b-%y %I-%M-%S");
+var parseTime = d3.timeParse("%d-%j-%Y %I-%M-%S");
 
 var x = d3.scaleTime()
     .rangeRound([0, width]);
@@ -22,8 +22,9 @@ var line = d3.line()
     .y(function(d) { return y(d.cpu0); });
 
 d3.csv("data/log.csv", function(d) {
-  d.time = parseTime(d.time);
-  d.cpu0 = d.cpu0;
+  d.hostname = d.hostname;
+  d.cpu0 = +d.cpu0;
+  d.time = +parseTime(d.time);
   return d;
 }, function(error, data) {
   if (error) throw error;
@@ -45,7 +46,7 @@ d3.csv("data/log.csv", function(d) {
       .attr("y", 6)
       .attr("dy", "0.71em")
       .attr("text-anchor", "end")
-      .text("Price ($)");
+      .text("CPU Load Avg");
 
   g.append("path")
       .datum(data)

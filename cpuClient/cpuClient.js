@@ -35,7 +35,7 @@ function cpuTimer(){
             }
     }
     var date = new Date().getTime();
-    date = moment(date).format("DD-MM-YYYY HH:mm:ss");
+    date = moment(date).format("MM/DD/YYYY HH:mm:ss");
 
     var out = "{" + "\"" + "hostname" + "\"" + " : " + "\"" + hostname + "\"" + " , " + cpuLoadString + "\"" + "time" + "\"" + " : " + "\"" + date + "\"" + "}"
     
