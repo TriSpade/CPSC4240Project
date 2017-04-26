@@ -3,6 +3,7 @@ var mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://127.0.0.1');
 var fs = require('fs');
 var moment = require('moment');
+var cryptojs = require('crypto-js');
 
 var T = 5000;
 var cpuMath = 0;
@@ -39,8 +40,12 @@ function cpuTimer(){
 
     var out = "{" + "\"" + "hostname" + "\"" + " : " + "\"" + hostname + "\"" + " , " + cpuLoadString + "\"" + "time" + "\"" + " : " + "\"" + date + "\"" + "}"
     
+    var ciphertext = cryptojs.AES.encrypt(out, 'vThwa79qRsXpyoDrf94jsef9ntoA+0FdfHIhSW34tPU=');
+    ciphertext = ciphertext.toString()
+
     console.log(out);
-    client.publish('groupproject', out);
+    console.log(ciphertext);
+    client.publish('groupproject', ciphertext);
 }
 
 

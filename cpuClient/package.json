@@ -1,0 +1,21 @@
+{
+	"name": "NodejsStarterApp",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node app.js"
+	},
+	"dependencies": {
+    "cfenv": "1.0.x",
+    "request": "2.79.0",
+    "lodash": "4.17.4",
+    "mysql": "2.13.0",
+    "mqtt": "2.6.2",
+    "moment": "2.18.1",
+    "crypto-js": "3.1.9-1"
+	},
+	"repository": {},
+	"engines": {
+		"node": "4.x"
+	} 
+}

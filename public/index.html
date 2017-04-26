@@ -9,7 +9,7 @@ var svg = d3.select("svg"),
     height = +svg.attr("height") - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var parseTime = d3.timeParse("%d-%j-%Y %I-%M-%S");
+var parseTime = d3.timeParse("%d/%m/%Y %H:%M:%S");
 
 var x = d3.scaleTime()
     .rangeRound([0, width]);
@@ -17,20 +17,54 @@ var x = d3.scaleTime()
 var y = d3.scaleLinear()
     .rangeRound([height, 0]);
 
-var line = d3.line()
+var cpu0line = d3.line()
     .x(function(d) { return x(d.time); })
     .y(function(d) { return y(d.cpu0); });
 
+var cpu1line = d3.line()
+    .x(function(d) { return x(d.time); })
+    .y(function(d) { return y(d.cpu1); });
+
+var cpu2line = d3.line()
+    .x(function(d) { return x(d.time); })
+    .y(function(d) { return y(d.cpu2); });
+
+var cpu3line = d3.line()
+    .x(function(d) { return x(d.time); })
+    .y(function(d) { return y(d.cpu3); });
+
+var cpu4line = d3.line()
+    .x(function(d) { return x(d.time); })
+    .y(function(d) { return y(d.cpu4); });
+
+var cpu5line = d3.line()
+    .x(function(d) { return x(d.time); })
+    .y(function(d) { return y(d.cpu5); });
+
+var cpu6line = d3.line()
+    .x(function(d) { return x(d.time); })
+    .y(function(d) { return y(d.cpu6); });
+
+var cpu7line = d3.line()
+    .x(function(d) { return x(d.time); })
+    .y(function(d) { return y(d.cpu7); });
+
 d3.csv("data/log.csv", function(d) {
-  d.hostname = d.hostname;
+  d.time = parseTime(d.time);
   d.cpu0 = +d.cpu0;
-  d.time = +parseTime(d.time);
+  d.cpu1 = +d.cpu1;
+  d.cpu2 = +d.cpu2;
+  d.cpu3 = +d.cpu3;
+  d.cpu4 = +d.cpu4;
+  d.cpu5 = +d.cpu5;
+  d.cpu6 = +d.cpu6;
+  d.cpu7 = +d.cpu7;
   return d;
 }, function(error, data) {
   if (error) throw error;
 
   x.domain(d3.extent(data, function(d) { return d.time; }));
-  y.domain(d3.extent(data, function(d) { return d.cpu0; }));
+  y.domain(d3.extent(data, function(d) { return d.cpu1; }));
 
   g.append("g")
       .attr("transform", "translate(0," + height + ")")
@@ -55,7 +89,70 @@ d3.csv("data/log.csv", function(d) {
       .attr("stroke-linejoin", "round")
       .attr("stroke-linecap", "round")
       .attr("stroke-width", 1.5)
-      .attr("d", line);
+      .attr("d", cpu0line);
+  
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "red")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", cpu1line);
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "green")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", cpu2line);
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "purple")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", cpu3line);
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "yellow")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", cpu4line);
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "blue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", cpu5line);
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "black")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", cpu6line);
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "gray")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", cpu7line);
 });
 
 </script>

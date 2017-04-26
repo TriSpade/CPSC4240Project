@@ -30,6 +30,8 @@ var mysql = require("mysql");
 
 var jsonexport = require("jsonexport");
 var fs = require("fs");
+
+var cryptojs = require('crypto-js');
    
 //SQL DB connection stuff
 var sqlcon = mysql.createPool({
@@ -60,7 +62,11 @@ client.on('connect', function(){
 
 	client.on('message', function(topic, message) {
 		var input = message.toString();
-		var toJSON = JSON.parse(input);
+
+		var bytes = cryptojs.AES.decrypt(input, 'vThwa79qRsXpyoDrf94jsef9ntoA+0FdfHIhSW34tPU=');
+		var plaintext = bytes.toString(cryptojs.enc.Utf8);
+
+		var toJSON = JSON.parse(plaintext);
 		
 		//console.log(toJSON);
 
