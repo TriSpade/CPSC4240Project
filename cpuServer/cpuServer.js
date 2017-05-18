@@ -99,7 +99,7 @@ client.on('connect', function(){
 function exportData(result){
 	jsonexport(result,function(err,csv){
 		if(err) return console.log(err);
-		fs.writeFile("public/data/log.csv", csv, function(err){
+		fs.writeFile("../public/data/log.csv", csv, function(err){
 			if(err){
 				return console.log(err);
 			}
